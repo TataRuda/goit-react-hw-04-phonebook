@@ -1,0 +1,9 @@
+.section {
+    padding-left: 40px;
+    padding-top: 30px;
+    
+}
+.section h2 {
+    font-size: 24px;
+    font-weight: 700;
+}

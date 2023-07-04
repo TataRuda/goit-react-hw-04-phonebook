@@ -1,0 +1,18 @@
+.btnDelete {
+    margin-left: 10px;
+    cursor: pointer;
+    width: 50px;
+    background-color: white;
+    font-size: 12px;
+    border-radius: 2px;
+    border: 1px solid grey;
+    color: black;
+    transition: background-color ease-in 0.2s;
+}
+.btnDelete:hover {
+    background-color: rgb(80, 80, 250);
+}  
+
+.item {
+    padding: 8px 0px;
+}

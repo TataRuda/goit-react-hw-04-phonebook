@@ -1,0 +1,23 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 2px solid black;
+    border-radius: 1px;
+    width: 300px; 
+    padding: 10px 10px;   
+}
+.button {
+    width: 120px;
+    height: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    border-radius: 2px;
+    background-color: rgb(223, 221, 221);
+    border: 1px solid grey;
+    transition: background-color ease-in 0.2s;
+}
+.button:hover, 
+.button:active {
+    background-color: rgb(80, 80, 250);
+}

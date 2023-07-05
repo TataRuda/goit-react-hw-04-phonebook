@@ -22,12 +22,10 @@ export const App = () => {
 
   // load from LocalStorage
   useEffect(() => {
-    const storedConatacts = localStorage.getItem('contacts');
-    if (storedConatacts) {
-      setContacts(JSON.parse(storedConatacts))
-    } else {
-      return
-    }
+    const storedContacts = localStorage.getItem('contacts');
+    if (storedContacts) {
+      setContacts(JSON.parse(storedContacts))
+    } 
   }, []);
 
   // add contact in list

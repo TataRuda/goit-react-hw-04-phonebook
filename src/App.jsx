@@ -1,41 +1,38 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import { nanoid } from "nanoid";
 import { ContactList } from 'components/ContactList/ContactList';
 import { ContactForm } from 'components/ContactForm/ContactForm';
 import { Section } from 'components/Section/Section';
 import { Filter } from 'components/Filter/Filter';
 
-export class App extends React.Component {
-  state = {
-    contacts: [
-      {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
-      {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
-      {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
-      {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'},
-    ],
-    filter: '',
-    name: '',
-    number: ''
-  };
-
+const INITIAL_CONTACTS = [
+  {id: 'id-1', name: 'Rosie Simpson', number: '459-12-56'},
+  {id: 'id-2', name: 'Hermione Kline', number: '443-89-12'},
+  {id: 'id-3', name: 'Eden Clements', number: '645-17-79'},
+  {id: 'id-4', name: 'Annie Copeland', number: '227-91-26'}, 
+]
+export const App = () => {
+  const [ contacts, setContacts ] = useState(INITIAL_CONTACTS);
+  const [ filter, setFilter] = useState('');
+  
   // save in localStorage 
-  componentDidUpdate() {
-    const { contacts } = this.state;
+  useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
-  };
+  }, [contacts]);
 
   // load from LocalStorage
-  componentDidMount() {
+  useEffect(() => {
     const storedConatacts = localStorage.getItem('contacts');
     if (storedConatacts) {
-      this.setState({contacts: JSON.parse(storedConatacts)})
+      setContacts(JSON.parse(storedConatacts))
+    } else {
+      return
     }
-  };
+  }, []);
 
- // add contact in list
- addContact = ({name, number}) => {
-  const { contacts } = this.state;
-// Check if there is a contact with the same name  
+  // add contact in list
+  const addContact = ({name, number}) => {
+ // Check if there is a contact with the same name  
   const isDuplicate = contacts.some(contact => contact.name.toLowerCase() === name.toLowerCase());
   const isDuplicateNumber = contacts.some(contact => contact.number === number);
   if (isDuplicate) {
@@ -46,48 +43,39 @@ export class App extends React.Component {
     alert( `${number} already exists in the contacts!`);
     return;
   }
-  this.setState(prevState => ({
-    contacts: [{ name, number, id: nanoid() }, ...prevState.contacts],
-  }));
- };
+  setContacts(contacts => [ {name, number, id: nanoid()}, ...contacts]);
+  };
 
  // delete contact 
- deleteContact = id  => {
-  this.setState(prevState => ({
-    contacts: prevState.contacts.filter(contact => contact.id !== id),
-  }));
-};
-
- getContacts = () => {
-  const { contacts, filter } = this.state;
-  const filteredContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
+  const deleteContact = id  => {
+  setContacts( contacts => contacts.filter(contact => contact.id !== id),
   );
-  return filteredContacts;
- };
+  };
 
- handleFilter = e => {
-  const { value } = e.currentTarget;
-  this.setState({ filter: value });
- };
+  const getContacts = () => {
+    const filteredContacts = contacts.filter(contact =>
+     contact.name.toLowerCase().includes(filter.toLowerCase())
+     );
+    return filteredContacts;
+  };
+
+  const handleFilter = e => {
+    setFilter(e.currentTarget.value);
+  } 
+
+  const visibleContacts = getContacts();
   
-  render() {
-    const { filter } = this.state;
-     const visibleContacts = this.getContacts();
-    return (
-      <> 
+  return (
+    <> 
       <Section title='Phonebook'>
-        <ContactForm onSubmit={this.addContact}/>
+        <ContactForm onSubmit={addContact}/>
       </Section>
       <Section title='Contacts'>
         <Filter value={filter}
-        onChange={this.handleFilter}/>
+        onChange={handleFilter}/>
         <ContactList contacts={visibleContacts}
-        onDeleteContact={this.deleteContact}/>
+        onDeleteContact={deleteContact}/>
       </Section>
-      
-      </>
-    )
-  }
-
+    </>
+  )
 };

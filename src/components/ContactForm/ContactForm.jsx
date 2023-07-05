@@ -33,6 +33,8 @@ export const ContactForm = ({onSubmit}) => {
   };
   const nameId = nanoid();
   const numberId = nanoid();
+
+  const patternName = new RegExp("^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$");
  
   return (
     <form className={css.form}
@@ -43,7 +45,7 @@ export const ContactForm = ({onSubmit}) => {
         type="text"
         value={name}
         onChange={handleChange}
-        pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        pattern={patternName}
         name="name"
         title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
         required/>

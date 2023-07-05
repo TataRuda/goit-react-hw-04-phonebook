@@ -15,18 +15,18 @@ export const App = () => {
   const [ contacts, setContacts ] = useState(INITIAL_CONTACTS);
   const [ filter, setFilter] = useState('');
   
-  // save in localStorage 
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
-
   // load from LocalStorage
   useEffect(() => {
     const storedContacts = localStorage.getItem('contacts');
     if (storedContacts) {
-      setContacts(JSON.parse(storedContacts))
+      setContacts(JSON.parse(storedContacts));
     } 
   }, []);
+  
+  // save in localStorage 
+  useEffect(() => {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   // add contact in list
   const addContact = ({name, number}) => {
